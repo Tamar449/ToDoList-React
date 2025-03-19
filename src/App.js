@@ -6,25 +6,31 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   async function getTodos() {
-    const todos = await service.getTasks();
-    setTodos(todos);
+    await service.getTasks()
+      .then(todos => setTodos(todos.data))
+      .catch(err => console.error("Failed to fetch todos:", err));
   }
-
+  
   async function createTodo(e) {
     e.preventDefault();
-    await service.addTask(newTodo);
-    setNewTodo("");//clear input
-    await getTodos();//refresh tasks list (in order to see the new one)
+    await service.addTask(newTodo)
+      .then(() => {
+        setNewTodo(""); // Clear input
+        return getTodos(); // Refresh tasks list
+      })
+      .catch(err => console.error("Failed to add task:", err));
   }
-
+  
   async function updateCompleted(todo, isComplete) {
-    await service.setCompleted(todo.id, isComplete);
-    await getTodos();//refresh tasks list (in order to see the updated one)
+    await service.setCompleted(todo.id, isComplete)
+      .then(() => getTodos())
+      .catch(err => console.error("Failed to update task:", err));
   }
-
+  
   async function deleteTodo(id) {
-    await service.deleteTask(id);
-    await getTodos();//refresh tasks list
+    await service.deleteTask(id)
+      .then(() => getTodos())
+      .catch(err => console.error("Failed to delete task:", err));
   }
 
   useEffect(() => {
