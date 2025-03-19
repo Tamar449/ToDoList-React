@@ -1,26 +1,34 @@
+
 import axios from 'axios';
 
-const apiUrl = "https://localhost:7271"
+axios.defaults.baseURL = "http://localhost:5151";
+
+axios.interceptors.response.use(
+  response => response,
+  err => {
+    console.error("Error caught by interceptor:", err);
+    return Promise.reject(err);
+  }
+);
 
 export default {
   getTasks: async () => {
-    const result = await axios.get(`${apiUrl}/items`)    
-    return result.data;
+    return await axios.get(`/`);
   },
 
-  addTask: async(name)=>{
+  addTask: async (name) => {
     console.log('addTask', name)
-    //TODO
-    return {};
+    return await axios.post(`/?name=${name}`);
   },
 
-  setCompleted: async(id, isComplete)=>{
-    console.log('setCompleted', {id, isComplete})
-    //TODO
-    return {};
+  setCompleted: async (id, isComplete) => {
+    console.log('setCompleted', { id, isComplete })
+    return await axios.put(`/${id}?IsComplete=${isComplete}`);
   },
 
-  deleteTask:async()=>{
+  deleteTask: async (id) => {
     console.log('deleteTask')
+    return await axios.delete(`/${id}`);
   }
 };
+
