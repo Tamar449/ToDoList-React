@@ -7,7 +7,9 @@ function App() {
 
   async function getTodos() {
     await service.getTasks()
-      .then(todos => setTodos(todos.data))
+      .then(todos => {
+        setTodos(todos.data);
+      })
       .catch(err => console.error("Failed to fetch todos:", err));
   }
   
