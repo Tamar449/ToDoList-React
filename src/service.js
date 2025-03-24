@@ -14,8 +14,7 @@ axios.interceptors.response.use(
 
 export default {
   getTasks: async () => {   
-    console.log("url", baseURL);
-     
+    console.log("url", baseURL); 
     return await axios.get(`/`);
   },
 

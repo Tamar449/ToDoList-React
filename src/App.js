@@ -36,6 +36,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log("api",process.env.REACT_APP_API);    
     getTodos();
   }, []);
 
